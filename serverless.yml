@@ -1,0 +1,43 @@
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: reto-tecnico-richardhg
+frameworkVersion: "4"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: "us-east-1"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-east-1:537124953041:table/SwarsTable
+
+
+functions:
+  hello:
+    handler: src/handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+  create:
+    handler: src/create.create
+    events:
+      - httpApi:
+          path: /create
+          method: post
+  
+resources:
+  Resources:
+    SwarsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: SwarsTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
