@@ -52,6 +52,12 @@ functions:
       - httpApi:
           path: /api/sw/{id}
           method: delete
+  verExternal:
+    handler: src/verExterno.getOneExternal
+    events:
+      - httpApi:
+          path: /api/external/sw/{id}
+          method: get
   
 resources:
   Resources:
