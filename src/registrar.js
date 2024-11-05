@@ -18,7 +18,6 @@ const create = async (event) => {
     terreno,
     url,
   } = JSON.parse(event.body);
-  
 
   const payload = {
     id: v4(),
@@ -34,17 +33,12 @@ const create = async (event) => {
     terreno,
     url,
   };
-  
-  await dynamodb.put({ TableName: tableDb, Item: payload }).promise();
 
-  // Recupera el dato insertado
-  const result = await dynamodb
-    .get({ TableName: tableDb, Key: { id: payload.id } })
-    .promise();
+  await dynamodb.put({ TableName: tableDb, Item: payload }).promise();
 
   return {
     status: 200,
-    body: result.Item,
+    body: { message: "Recurso insertado" },
   };
 };
 
