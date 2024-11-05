@@ -8,12 +8,12 @@ const getOne = async (event) => {
   const { id } = event.pathParameters;
 
   const result = await dynamodb
-    .get({ TableName: tableDb, Key: { id: payload.id } })
+    .get({ TableName: tableDb, Key: { id } })
     .promise();
 
   return {
     status: 200,
-    body: JSON.stringify(result.Item),
+    body: result.Item,
   };
 };
 

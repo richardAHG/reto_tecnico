@@ -44,7 +44,7 @@ const create = async (event) => {
 
   return {
     status: 200,
-    body: JSON.stringify(result.Item),
+    body: result.Item,
   };
 };
 

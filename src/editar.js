@@ -13,32 +13,49 @@ const update = async (event) => {
     periodo_orbital,
     poblacion,
     residentes,
-    periodo_rotación,
+    periodo_rotacion,
     agua_superficial,
     terreno,
     url,
   } = JSON.parse(event.body);
+  const { id } = event.pathParameters;
 
-  const payload = {
-    id: v4(),
-    clima,
-    diametro,
-    gravedad,
-    nombre,
-    periodo_orbital,
-    poblacion,
-    residentes,
-    periodo_rotación,
-    agua_superficial,
-    terreno,
-    url,
+  const params = {
+    TableName: tableDb,
+    Key: { id },
+    UpdateExpression: `set 
+      clima = :clima,
+      diametro = :diametro,
+      gravedad = :gravedad,
+      nombre = :nombre,
+      periodo_orbital = :periodo_orbital,
+      poblacion = :poblacion,
+      residentes = :residentes,
+      periodo_rotacion = :periodo_rotacion,
+      agua_superficial = :agua_superficial,
+      terreno = :terreno,
+      url = :url`,
+    ExpressionAttributeValues: {
+      ":clima": clima,
+      ":diametro": diametro,
+      ":gravedad": gravedad,
+      ":nombre": nombre,
+      ":periodo_orbital": periodo_orbital,
+      ":poblacion": poblacion,
+      ":residentes": residentes,
+      ":periodo_rotacion": periodo_rotacion,
+      ":agua_superficial": agua_superficial,
+      ":terreno": terreno,
+      ":url": url,
+    },
+    ReturnValues: "ALL_NEW",
   };
-  await dynamodb.put({ TableName: tableDb, Item: payload }).promise();
 
+  const result = await dynamodb.update(params).promise();
 
   return {
     status: 200,
-    body: JSON.stringify(result.Item),
+    body: result.Attributes,
   };
 };
 

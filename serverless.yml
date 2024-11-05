@@ -21,12 +21,37 @@ functions:
       - httpApi:
           path: /
           method: get
-  create:
-    handler: src/create.create
+  
+  list:
+    handler: src/listar.getAll
     events:
       - httpApi:
-          path: /create
+          path: /api/sw
+          method: get
+  view:
+    handler: src/ver.getOne
+    events:
+      - httpApi:
+          path: /api/sw/{id}
+          method: get
+  create:
+    handler: src/registrar.create
+    events:
+      - httpApi:
+          path: /api/sw
           method: post
+  edit:
+    handler: src/editar.update
+    events:
+      - httpApi:
+          path: /api/sw/{id}
+          method: put
+  delete:
+    handler: src/eliminar.remove
+    events:
+      - httpApi:
+          path: /api/sw/{id}
+          method: delete
   
 resources:
   Resources:
